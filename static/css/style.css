@@ -1,7 +1,22 @@
-h1 {
-    border: 2px #eee solid;
-    color: brown;
-    text-align: center;
-    padding: 10px;
+
+.best_green1 {
+    /*color: green;*/
+    font-weight: bold;
+    background-color: rgba(144, 238, 144, 0.226);
 }
 
+.best_green1_text {
+    font-weight: bold;
+    color:  rgba(144, 238, 144, 0.226);
+}
+
+.best_green2 {
+    /*color: green;*/
+    font-weight: bold;
+    background-color: rgba(70, 196, 70, 0.329);
+}
+
+.best_green2_text {
+    font-weight: bold;
+    color:  rgba(70, 196, 70, 0.329);
+}

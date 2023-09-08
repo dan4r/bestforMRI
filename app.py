@@ -8,14 +8,15 @@ app.config['TEMPLATES_AUTO_RELOAD'] = True
 @app.route('/')
 def index():
     np_core = request.args.get('np_core', default = '-', type = str)
-    emic_x_size = request.args.get('emic_x_size', default = 1, type = float)
-    emic_y_size = request.args.get('emic_y_size', default = 1, type = float)
-    emic_z_size = request.args.get('emic_z_size', default = 1, type = float)
-    print(np_core, emic_x_size, emic_y_size, emic_z_size)
-    r1, r2 = '-', '-'
+    print(np_core)
+    result = ()
+    best_t1 = best_t2 = -1
     if np_core != '-':
-        r1, r2 = predict(np_core, emic_x_size, emic_y_size, emic_z_size)
-    return render_template('index.html', r1=r1, r2=r2, formula=np_core)
+        result = predict(np_core)
+        best_t1 = result.index(min(result))
+        best_t2 = result.index(max(result))
+
+    return render_template('index.html', result=result,  formula=np_core, best_t1=best_t1, best_t2=best_t2)
 
 @app.route('/add_sample', methods=['GET', 'POST'])
 def add():

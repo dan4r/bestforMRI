@@ -7,21 +7,6 @@
         <h2>Formula</h2>
         <input type="text" name="np_core" value="{{ request.form['np_core'] }}" required>
     </div>
-    <h2>Size of nanoparticle:</h2>
-    <div class="form-row">
-        <div class="col-auto">
-            <h3>X:</h3>
-            <input type="number" step="0.01" name="emic_x_size" value="{{ request.form['emic_x_size'] }}" required>
-        </div>
-        <div class="col-auto">
-            <h3>Y:</h3>
-            <input type="number" step="0.01" name="emic_y_size" value="{{ request.form['emic_y_size'] }}" required>
-        </div>
-        <div class="col-auto">
-            <h3>Z:</h3>
-            <input type="number" step="0.01" name="emic_z_size" value="{{ request.form['emic_z_size'] }}" required>
-        </div>
-    </div>
     <div class="form-group row">
         <div class="col-sm-10">
             <button type="submit" class="btn btn-outline-success btn-lg mt-3">Predict</button>
@@ -29,18 +14,43 @@
     </div>
 </form>
 <h1>Result for {{ formula }} nanoparticle:</h1>
+{% set size_word = ['small', 'medium', 'large'] %}
+{% set size_num = [10, 100, 1000] %}
+{% set shell = ['without shell', 'with shell (...)'] %}
+{% if best_t1 != -1 and best_t2 != -1 %}
+    <h2>As a <span class="best_green1">T1 agent</span> it is better to choose a {{size_word[best_t1 // 2]}} particle {{shell[best_t1 % 2]}}</h2>
+    <h2>As a <span class="best_green2">T2 agent</span> it is better to choose a {{size_word[best_t2 // 2]}} particle {{shell[best_t2 % 2]}}</h2>
+{% endif %}
 <table class="table">
     <thead>
         <tr>
-            <th scope="col">R1 relaxivity</th>
-            <th scope="col">R2 relaxivity</th>
+            <th scope="col">R2/R1</th>
+            <th scope="col">Without shell</th>
+            <th scope="col">With shell (...)</th>
         </tr>
     </thead>
     <tbody>
-        <tr>
-            <td id="r1">{{ r1 }}</td>
-            <td id="r2">{{ r2 }}</td>
-        </tr>
+
+        {% for i in range(3) %}
+            <tr>
+                <td>{{ size_word[i] }} particle ({{ size_num[i] }} nm)</td>
+                {% if best_t1 == i *2 %}
+                <td class="best_green1">{{ result[i*2] }}</td>
+                {% elif best_t2 == i *2 %}
+                <td class="best_green2">{{ result[i*2] }}</td>
+                {% else %}
+                <td>{{ result[i*2] }}</td>
+                {% endif %}
+
+                {% if best_t1 == i*2+1 %}
+                <td class="best_green1">{{ result[i*2+1] }}</td>
+                {% elif best_t2 == i*2+1 %}
+                <td class="best_green2">{{ result[i*2+1] }}</td>
+                {% else %}
+                <td>{{ result[i*2+1] }}</td>
+                {% endif %}
+            </tr>
+            {% endfor %}
     </tbody>
 </table>
 {% endblock %}
