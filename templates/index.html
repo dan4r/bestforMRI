@@ -15,8 +15,8 @@
 </form>
 <h1>Result for {{ formula }} nanoparticle:</h1>
 {% set size_word = ['small', 'medium', 'large'] %}
-{% set size_num = [10, 100, 1000] %}
-{% set shell = ['without shell', 'with shell (...)'] %}
+{% set size_num = [10, 40, 100] %}
+{% set shell = ['without shell', 'with shell (sodium citrate)'] %}
 {% if best_t1 != -1 and best_t2 != -1 %}
     <h2>As a <span class="best_green1">T1 agent</span> it is better to choose a {{size_word[best_t1 // 2]}} particle {{shell[best_t1 % 2]}}</h2>
     <h2>As a <span class="best_green2">T2 agent</span> it is better to choose a {{size_word[best_t2 // 2]}} particle {{shell[best_t2 % 2]}}</h2>
@@ -26,7 +26,7 @@
         <tr>
             <th scope="col">R2/R1</th>
             <th scope="col">Without shell</th>
-            <th scope="col">With shell (...)</th>
+            <th scope="col">With shell (sodium citrate)</th>
         </tr>
     </thead>
     <tbody>
